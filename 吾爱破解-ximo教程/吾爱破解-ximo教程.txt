@@ -6,19 +6,26 @@
 　　2. 打断点
 OEP (入口点): 大跨度跳转
 3种脱壳方式
-　　1.OD插件，LordPE(需要用mackT/ucf)
+　　1.OD插件，LordPE(需要用mackT/ucf修复)
 　　2.OD dump方式一
 　　3.OD dump方式二
 UPX壳脱壳方法：
 方法1：单步跟踪
 	入口点不一样，OD版本不同，吾爱破解的OD入口点设置有问题，切换Main也不行
+	程序领空 基址00400000，偏移xxx
+	系统领空 7xxxxxxx 
 方法2：ESP定律法
-	ESP突变，查看数据段跟踪
+	关键句的下一句，ESP突变，ESP数据窗口跟踪
+	打硬件断点，word/dword(硬件断点及时删)
 命令：
 　　1.dd XXXXX
 　　2.hr XXXXX
 方法3：2次内存镜像法
 	Delphi程序的地址段特征
-	//todo
+	M:内存(alt+m)，区别系统领空
+	.rsrc	资源文件
+	下断点f2	运行
+	UPX0	下断点 运行
 方法4：一步直达法
-	搜索命令
+	适用范围：大部分UPX壳和ASPACK壳
+	搜索命令,pop,push
