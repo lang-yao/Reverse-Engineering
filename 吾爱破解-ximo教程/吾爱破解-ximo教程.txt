@@ -1,5 +1,5 @@
 1.手脱UPX壳 
-调试工具:PEID和OD
+调试工具:PEID和ollyice(OD入口点不对)
 脱壳机-脱upx壳
 跳转:
 　　1. f4
@@ -29,3 +29,25 @@ UPX壳脱壳方法：
 方法4：一步直达法
 	适用范围：大部分UPX壳和ASPACK壳
 	搜索命令,pop,push
+2. 手脱ASPACK壳
+ASPack 2.12 -> Alexey Solodovnikov
+调试工具：PEID和ollyice(OD和教程不对)
+
+6种方法脱
+方法1：单步跟踪
+	跑飞了
+	f7进入call
+	popad离oep近了
+方法2：ESP定律
+方法3：一步直达
+方法4：2次内存镜像
+	程序段的.rsrc 下断点
+	.text 下断点
+方法5：模拟跟踪
+	内存找SFX,imports,relocations
+	命令：
+	tc eip<地址
+方法6：SFX模拟跟踪
+	菜单栏-选项-调试-SFX
+	块方式跟踪
+3. 
