@@ -56,8 +56,11 @@ nSPack 1.3 -> North Star/Liu Xing Ping
 NsPacK V3.7 -> LiuXingPing *
 方法1：单步跟踪
 	离程序形如比较近的call，F7进入
+	使用lordPE脱壳
+	使用importREC修复
 方法2：ESP定律
 方法3：SFX模拟跟踪
+	找SFX,数据，输入表，资源处跟踪
 方法4：2次内存镜像
 	PE是从上到下解压的
 	没有资源文件，直接code段下断点

@@ -1,0 +1,25 @@
+[翻译]3个脱壳相关的重要函数介绍：https://bbs.pediy.com/thread-20230.htm
+1.GetModuleHandle函数
+如果文件已经被映射进了调用进程的地址空间，则此函数返回指定模块的句柄，
+
+HMODULE GetModuleHandle(
+  LPCTSTR lpModuleName   // 需要返回句柄的模块名的地址
+);
+2. GetProcAddress函数
+
+GetProcAddress函数返回指定的输出动态链接库内的函数地址。
+
+FARPROC GetProcAddress(
+  HMODULE hModule,    // DLL模块句柄
+  LPCSTR lpProcName   // 函数名
+);
+3.LoadLibrary函数
+
+LoadLibrary函数把指定的可执行模块映射进调用进程的地址空间。
+
+HINSTANCE LoadLibrary(
+  LPCTSTR lpLibFileName   //可执行模块的文件名
+);
+
+[原创]找寻OEP的两种通用方法：https://bbs.pediy.com/thread-226716.htm
+GetProcAddress，LoadLibrary，ExitTherad。前2个肯定用到，最后一个未必。
