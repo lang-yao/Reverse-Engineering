@@ -47,6 +47,8 @@ ASPack 2.12 -> Alexey Solodovnikov
 	内存找SFX,imports,relocations
 	命令：
 	tc eip<地址
+	没有直接找到OEP，跟踪到了系统领空，通过“执行到返回(alt+f9)”/“执行到用户代码(ctrl+f9)”到用户代码
+	断续单步跟踪
 方法6：SFX模拟跟踪
 	菜单栏-选项-调试-SFX
 	块方式跟踪
@@ -62,23 +64,37 @@ NsPacK V3.7 -> LiuXingPing *
 方法3：SFX模拟跟踪
 	找SFX,数据，输入表，资源处跟踪
 方法4：2次内存镜像
-	PE是从上到下解压的
+	PE是从上到下解压的，先解压资源文件，然后解压代码段，
 	没有资源文件，直接code段下断点
+	Q:如果有资源文件，为什么不直接在代码段下断点？
 北斗，直接搜：
 at GetVersion
-在retn下断点
+在retn下断点单步(吾爱版OD直接到系统领空然后运行到用户代码直接跑飞，，Ollyice单步后直接到OEP)
 适用于北斗3.0以前的壳
+北斗2.4加壳
+EP区段是nsp0，是nspack,北斗的壳
+单步进入jump,ESP定律法搞定
+北斗3.7壳
+ESP定律法搞定
 4.基础脱壳教程4：手脱FSG壳
 脱FSG 2.0 -> bart/xt
 
+单步跟踪找OEP
 OEP地址一般存在寄存器里面，不直接给出
-手动、查找IAT
-找任意一个call
-在修复工具中输入OEP-基址
-敲命令dd xxx
-RVA
-大小需要计算，可直接输入1000(需要删除无效指针)
+手动、查找IAT：工具importREC
+找任意一个call，在importantREC中定位call的地址
+00425000  77DA6C17  advapi32.RegCloseKey
+00425280  7C838E18  kernel32.LCMapStringA
+
+RVA=25000
+SIZE=280
+SIZE=1000（懒省事，有垃圾指针）
+
 方法1：单步跟踪
 方法2：ESP定律
 方法3：特殊ESP定律
 只适用于FSG 2.0 -> bart/xt
+00400154 >  8725 04A24700   xchg dword ptr ds:[0x47A204],esp         ; qqspirit.0047A208
+0040015A    61              popad
+0040015B    94              xchg eax,esp                             ; qqspirit.0047A208
+跳到这在堆栈窗口第四行为OEP地址，在反汇编窗口跟随，下硬件断点，直接跳到OEP
