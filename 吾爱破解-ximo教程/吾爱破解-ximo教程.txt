@@ -98,3 +98,65 @@ SIZE=1000（懒省事，有垃圾指针）
 0040015A    61              popad
 0040015B    94              xchg eax,esp                             ; qqspirit.0047A208
 跳到这在堆栈窗口第四行为OEP地址，在反汇编窗口跟随，下硬件断点，直接跳到OEP
+
+5.基础脱壳教程5：手脱PECompact2.X的壳
+1。单步
+进入系统领空后继续跟踪
+OD载入脱壳后的程序直接到OEP
+VC6:OEP
+0040A86D >  55              push    ebp
+
+2。ESP定律
+第一个ESP突变不对，跟踪后进入系统领空
+第二个成功
+3。BP VirtualFree
+F9运行后
+F2取消断点
+ALT+F9回到用户代码
+查找 push 8000(特征码)
+F4运行到这
+然后单步跟到OEP
+4。BP VirtualFree
+两次F9运行
+中断后取消断点，Alt+F9返回
+单步走到OEP
+5.0040A86D >  B8 74DE4500     mov eax,qqspirit.0045DE74
+上来就是MOV命令，参数后面跟0045de74这种
+运行命令：
+bp 0045de74
+
+045DE74    B8 F9CB45F0     mov eax,F045CBF9
+
+0045DE79    8D88 9E120010   lea ecx,dword ptr ds:[eax+1000129E]
+0045DE7F    8941 01         mov dword ptr ds:[ecx+1],eax
+0045DE82    8B5424 04       mov edx,dword ptr ss:[esp+4]
+0045DE86    8B52 0C         mov edx,dword ptr ds:[edx+C]
+0045DE89    C602 E9         mov byte ptr ds:[edx],0E9
+0045DE8C    83C2 05         add edx,5
+0045DE8F    2BCA            sub ecx,edx
+0045DE91    894A FC         mov dword ptr ds:[edx-4],ecx
+0045DE94    33C0            xor eax,eax
+0045DE96    C3              retn
+0045DE97    B8 78563412     mov eax,12345678//下断
+Q:F4!=断点F2+F9？
+F4跑飞，F2+F9不会
+6。bp VirtualAlloc  SHIFT+F9运行
+取消断点
+ALT+F9
+向下拉，看到JMP。运行到这
+
+7.最后一次异常法；
+取消所有异常。
+2次跑飞。
+在堆栈窗口找SE句柄
+crtl+g转到:SE xxxx处
+
+8。两次内存
+9。at GetVersion
+C++程序的程序的方法，OEP最终在上面
+
+6.基础脱壳教程6：手脱EZIP 壳
+开始遇到jmp直接F8
+1。单步
+脱壳后无法运行，可能入口点找错了。以用重建PE的方法。
+2。ESP定律
