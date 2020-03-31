@@ -6,7 +6,7 @@
 　　2. 打断点
 OEP (入口点): 大跨度跳转
 3种脱壳方式
-　　1.OD插件，LordPE(需要用mackT/ucf修复)
+　　1.OD插件，LordPE(需要用importCRE修复)
 　　2.OD dump方式一
 　　3.OD dump方式二
 UPX壳脱壳方法：
@@ -317,3 +317,46 @@ nSPack 1.3 -> North Star/Liu Xing Ping [Overlay]
 实际大小+实际偏移量：8800+400=8c00
 十六进制，转到8c00
 最后空数据不能覆盖
+
+12.基础脱壳教程12：自校验的去除方法
+
+ASPack 2.12 -> Alexey Solodovnikov
+ESP定律法脱壳
+lordPE+IR修复
+IR修复：输入表只有一个函数，一般不可能，需要手动查找IAT修复
+找cmp,执行命令dd xxxx,找RVA
+修复后可以运行。
+
+去除自校验：
+对比脱壳后的程序，两个程序都下断点
+bp CreateFileA
+跟踪比较程序跳转差异
+
+对异常跳转改为nop或je，分析跳转条件
+修改后保存
+
+13.基础脱壳教程13：脱壳的简单应用——软件的汉化及DIY
+
+1. 先查壳
+2。有壳就脱壳
+3。对软件进行破解、汉化、美化等DIY
+工具：
+资源编辑：
+resource hacker
+peexplorer
+getvbres ............VB类的汉化、DIY
+xnresource 可以自己加功能
+等等
+BC++，delphi在resouce hacker中特有的RCData。用peexplorern修改。
+ASPack 2.12 -> Alexey Solodovnikov
+ESP定律法脱壳
+getvbres修改资源失败，可能0.9版本太老
+FSG 2.0 -> bart/xt
+SFX跟踪法脱壳
+使用FixRes.exe脱壳后修复
+resource hacker修改资源
+Borland C++ 1999：btengine.exe
+修改资源失败
+可能xnresource版本过旧
+
+14.基础脱壳教程14：手脱ASPACK的变形壳
