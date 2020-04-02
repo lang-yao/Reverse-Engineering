@@ -372,3 +372,33 @@ SFX跟踪脱壳
 15.基础脱壳教程15：ASPACK变形壳(续)及学会用脚本进行脱壳
 用插件脚本脱壳，不一定准确，变形壳可能出现问题
 自动运行到OEP
+
+16.基础脱壳教程16：脱ACProtect132(无Stolen Code)
+
+ACprotect壳：ep区段：.perplex
+
+调试-异常：去掉：内存访问异常的勾选
+1。设置异常，隐藏OD（高版本ACprotect壳检验OD）
+最后一次异常法，(出现int 3的位置)
+堆栈窗口找SE句柄
+2。SE处，数据窗口跟随，下内存访问断点（一般断点可能不能用）
+3。SHIFT+F9，F2，再一次SHIFT+F9，下断，再一次SHIFT+F9
+4，取消所有断点（alt+b,断点窗口，清除内存访问断点，跳转到retn处）
+5，内存，00401000代码段。F2，SHIFT+F9
+6，直达OEP！！
+7。修复，脱壳成功
+VB的程序：
+-----------------------------------------------------
+004012D4    68 54474000     push    00404754
+004012D9    E8 F0FFFFFF     call    004012CE                         ; jmp 到 msvbvm60.ThunRTMain
+004012DE    0000            add     byte ptr [eax], al
+004012E0    0000            add     byte ptr [eax], al
+004012E2    0000            add     byte ptr [eax], al
+004012E4    3000            xor     byte ptr [eax], al
+004012E6    0000            add     byte ptr [eax], al
+004012E8    48              dec     eax
+004012E9    0000            add     byte ptr [eax], al
+004012EB    0000            add     byte ptr [eax], al
+004012ED    0000            add     byte ptr [eax], al
+004012EF    0068 36         add     byte ptr [eax+36], ch
+
