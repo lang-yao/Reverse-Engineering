@@ -6,7 +6,7 @@
 　　2. 打断点
 OEP (入口点): 大跨度跳转
 3种脱壳方式
-　　1.OD插件，LordPE(需要用mackT/ucf修复)
+　　1.OD插件，LordPE(需要用importCRE修复)
 　　2.OD dump方式一
 　　3.OD dump方式二
 UPX壳脱壳方法：
