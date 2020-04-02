@@ -317,3 +317,109 @@ nSPack 1.3 -> North Star/Liu Xing Ping [Overlay]
 实际大小+实际偏移量：8800+400=8c00
 十六进制，转到8c00
 最后空数据不能覆盖
+
+12.基础脱壳教程12：自校验的去除方法
+
+ASPack 2.12 -> Alexey Solodovnikov
+ESP定律法脱壳
+lordPE+IR修复
+IR修复：输入表只有一个函数，一般不可能，需要手动查找IAT修复
+找cmp,执行命令dd xxxx,找RVA
+修复后可以运行。
+
+去除自校验：
+对比脱壳后的程序，两个程序都下断点
+bp CreateFileA
+跟踪比较程序跳转差异
+
+对异常跳转改为nop或je，分析跳转条件
+修改后保存
+
+13.基础脱壳教程13：脱壳的简单应用——软件的汉化及DIY
+
+1. 先查壳
+2。有壳就脱壳
+3。对软件进行破解、汉化、美化等DIY
+工具：
+资源编辑：
+resource hacker
+peexplorer
+getvbres ............VB类的汉化、DIY
+xnresource 可以自己加功能
+等等
+BC++，delphi在resouce hacker中特有的RCData。用peexplorern修改。
+ASPack 2.12 -> Alexey Solodovnikov
+ESP定律法脱壳
+getvbres修改资源失败，可能0.9版本太老
+FSG 2.0 -> bart/xt
+SFX跟踪法脱壳
+使用FixRes.exe脱壳后修复
+resource hacker修改资源
+Borland C++ 1999：btengine.exe
+修改资源失败
+可能xnresource版本过旧
+
+14.基础脱壳教程14：手脱ASPACK的变形壳
+
+peid什么也没发现可以看EP区段（不一定准确，可以改）
+call命令近的F7，远的F8
+
+变形壳程序的脱壳思路：
+yoda's Protector v1.02 (.dll,.ocx) 
+类似最后一次异常法，在循环中，不断执行，最终跑飞前的一次，跳转到程序正常执行的位置。
+SFX跟踪脱壳
+
+15.基础脱壳教程15：ASPACK变形壳(续)及学会用脚本进行脱壳
+用插件脚本脱壳，不一定准确，变形壳可能出现问题
+自动运行到OEP
+
+16.基础脱壳教程16：脱ACProtect132(无Stolen Code)
+
+ACprotect壳：ep区段：.perplex
+
+调试-异常：去掉：内存访问异常的勾选
+1。设置异常，隐藏OD（高版本ACprotect壳检验OD）
+最后一次异常法，(出现int 3的位置)
+堆栈窗口找SE句柄
+2。SE处，数据窗口跟随，下内存访问断点（一般断点可能不能用）
+3。SHIFT+F9，F2，再一次SHIFT+F9，下断，再一次SHIFT+F9
+4，取消所有断点（alt+b,断点窗口，清除内存访问断点，跳转到retn处）
+5，内存，00401000代码段。F2，SHIFT+F9
+6，直达OEP！！
+7。修复，脱壳成功
+VB的程序：
+--------------------------------------------------------
+004012D4    68 54474000     push    00404754
+004012D9    E8 F0FFFFFF     call    004012CE                         ; jmp 到 msvbvm60.ThunRTMain
+004012DE    0000            add     byte ptr [eax], al
+004012E0    0000            add     byte ptr [eax], al
+004012E2    0000            add     byte ptr [eax], al
+004012E4    3000            xor     byte ptr [eax], al
+004012E6    0000            add     byte ptr [eax], al
+004012E8    48              dec     eax
+004012E9    0000            add     byte ptr [eax], al
+004012EB    0000            add     byte ptr [eax], al
+004012ED    0000            add     byte ptr [eax], al
+004012EF    0068 36         add     byte ptr [eax+36], ch
+
+17.基础脱壳教程17：脱ACProtect(存在Stolen Code)
+UltraProtect 1.x是ACprotect以前的名字
+UltraProtect 1.x -> RISCO Software Inc.
+常规方法，直达OEP，同上
+
+设置跟踪条件，ctrl+f11，跟踪步入
+
+二进制复制被偷取的代码
+
+.text 代码段下断点
+修复被偷取的代码
+新建EIP到修复后的OEP
+ODdump不重建输入表？？？
+修复：
+等级3跟踪，有插件可以用插件跟踪
+修复，成功脱掉！
+
+004254C9    55              push ebp
+004254CA    8BEC            mov ebp,esp
+004254CC    83EC 44         sub esp,44
+
