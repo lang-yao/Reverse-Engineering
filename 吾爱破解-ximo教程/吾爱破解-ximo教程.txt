@@ -402,3 +402,24 @@ VB的程序：
 004012ED    0000            add     byte ptr [eax], al
 004012EF    0068 36         add     byte ptr [eax+36], ch
 
+17.基础脱壳教程17：脱ACProtect(存在Stolen Code)
+UltraProtect 1.x是ACprotect以前的名字
+UltraProtect 1.x -> RISCO Software Inc.
+常规方法，直达OEP，同上
+
+设置跟踪条件，ctrl+f11，跟踪步入
+
+二进制复制被偷取的代码
+
+.text 代码段下断点
+修复被偷取的代码
+新建EIP到修复后的OEP
+ODdump不重建输入表？？？
+修复：
+等级3跟踪，有插件可以用插件跟踪
+修复，成功脱掉！
+
+004254C9    55              push ebp
+004254CA    8BEC            mov ebp,esp
+004254CC    83EC 44         sub esp,44
+
