@@ -117,8 +117,22 @@ bp VirtualProtect
 HR esp；ESP定律法
 
 
+8、第八课
+CRYPToCRACk's PE Protector壳
 
+1、二次内存镜像法
+直达 OEP
+ID加密：
+iR等级3修复
 
+2、
+资源段下断点
+远call跟进
+指针被加密，
+004683348B7C24 04 MOV EDI,DWORD PTR SS:[ESP+4] //这里将加密指针放入EDI寄存器
+00468338893C8AMOV DWORD PTR DS:[EDX+ECX*4],EDI//这里观察寄存器窗口，EAX的值是还没加密的函数，这时把EDI寄存器改成EAX，就可以达到解密效果
+
+跳过了加密步骤
 
 
 
