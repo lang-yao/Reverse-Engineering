@@ -117,8 +117,9 @@ bp VirtualProtect
 HR esp；ESP定律法
 
 
-8、第八课
+9、第九课（程序调试报错，没有试验）
 CRYPToCRACk's PE Protector壳
+
 
 1、二次内存镜像法
 直达 OEP
@@ -134,6 +135,58 @@ iR等级3修复
 
 跳过了加密步骤
 
+10、第十课
+PESpin 1.3壳
+OEP被偷
+
+ESP定律法，在假OEP之前，先单步
+1、先单步
+2、ESP定律法，shift+f9运行
+3、单步
+4、找C++的oep
+push ebp开始，
+注意堆栈窗口的代码
+
+11、第11课
+去VB自校验
+
+ESP定律
+脱壳后，去自校验
+方法一：
+命令：bpx papa
+vbaNew2,调用退出函数，设置每次调用到vbaNew2的断点
+VB的自校验可以对函数操作
+
+第二个程序
+bpx papa
+退出函数，跳过
+
+方法二：
+BP rtcFileLen
+方法三：
+ctrl+b 搜
+816C24
+单步跟
 
 
+12、第十二课
+FSG2.0
 
+脱壳
+专用脱壳法：
+运行到xchg eax,esp
+堆栈窗口第四行，在反汇编窗口跟随，删除模块分析，设置硬件访问断点
+重载程序，运行，删除模块分析
+LordPE dump程序
+FSG2.0 有IAT处理
+修正IAT
+
+无法运行，存在自校验
+
+bp FindFirstFileA
+运行，不取消断点
+1、单步改
+2、搜索全部命令：cmp eax, 2e49
+3、bpx papa，对exitProcess下访问断点
+改两个cmp
+第三个需要bp FindFirstFileA
